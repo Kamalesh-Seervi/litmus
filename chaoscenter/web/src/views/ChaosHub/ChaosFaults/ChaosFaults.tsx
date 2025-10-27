@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Layout, Pagination, Text } from '@harnessio/uicore';
-import { Icon } from '@harnessio/icons';
+import { Icon, type IconName } from '@harnessio/icons';
 import { FontVariation, Color } from '@harnessio/design-system';
 import { Link, useParams } from 'react-router-dom';
 import { withErrorBoundary } from 'react-error-boundary';
@@ -89,6 +89,9 @@ function ChaosFaults({ hubDetails, faultCategories, loading, searchValue }: Chao
   };
 
   const FaultCard = (fault: Fault): React.ReactElement => {
+    const iconName: IconName = (
+      fault.tag.toLowerCase() === 'kubernetes' ? 'service-kubernetes' : 'chaos-litmuschaos'
+    ) as IconName;
     return (
       <Link
         to={{
@@ -99,7 +102,7 @@ function ChaosFaults({ hubDetails, faultCategories, loading, searchValue }: Chao
         <Card key={fault.name} interactive className={css.insideCard}>
           <Layout.Vertical spacing="medium">
             <Layout.Horizontal spacing="small">
-              <Icon size={23} name="chaos-litmuschaos" />
+              <Icon size={23} name={iconName} />
               <Text font={{ variation: FontVariation.BODY, weight: 'semi-bold' }} color={Color.PRIMARY_7}>
                 {fault.displayName === ''
                   ? toTitleCase({
